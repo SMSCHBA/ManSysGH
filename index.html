@@ -1466,15 +1466,18 @@
       emailBody += `Begrundelse for manglende dok.: ${noDocReason}\n`;
     }
 
-    const recipient = "tsc@bll.dk";
+const recipient = "tsc@bll.dk";
     const subject = encodeURIComponent("New Safety Report: " + title);
     const body = encodeURIComponent(emailBody);
 
-    window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+    const mailtoUrl = `mailto:${recipient}?subject=${subject}&body=${body}`;
 
-    setTimeout(() => {
-      alert("Dine oplysninger er valideret. Mailprogrammet åbnes nu til tsc@bll.dk.");
-    }, 400);
+    // Åbn mailto-linket direkte uden setTimeout for at undgå popup-/sikkerhedsblokering på mobil
+    try {
+      window.open(mailtoUrl, '_self');
+    } catch (e) {
+      window.location.href = mailtoUrl;
+    }
   });
 
   updateTabStatuses();
